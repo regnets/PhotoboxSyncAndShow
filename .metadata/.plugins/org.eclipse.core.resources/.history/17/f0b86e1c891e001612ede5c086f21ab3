@@ -1,0 +1,54 @@
+package com.github.regnets.photobox.show;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+
+public class GUI extends JFrame {
+	private static final long serialVersionUID = 1L;
+
+	String imagePath;
+
+	public GUI() {
+		imagePath = "";
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+
+		this.setUndecorated(true);
+		this.setBackground(Color.black);
+		
+		this.setVisible(true);
+		
+		GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(this);
+	}
+
+	public void refreshImage(String imagePath) {
+		this.imagePath = imagePath;
+		this.repaint();
+	}
+
+	public void paint(Graphics g) {
+		BufferedImage screenImage;
+		try {
+			if (imagePath != "") {
+				screenImage = ImageIO.read(new File(imagePath));
+				if (screenImage != null) {
+					g.drawImage(screenImage, 150, 0, 1620, getHeight(), this);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,10 @@
+
+public class Main {
+
+	public static void main(String args[]) {
+		Sync sync = new Sync();
+		sync.addFlashAirCard("10.0.0.15", "/DCIM/100__TSB");
+		System.out.println(sync.getInfoForAllCards());
+		sync.start();
+	}
+}

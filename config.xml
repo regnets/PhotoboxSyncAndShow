@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<configuration>
+	<syncfolder>c:/temp</syncfolder>
+	<displaytime>5000</displaytime>
+	<synctime>1000</synctime>
+	<cards>
+		<card>
+			<address>192.168.1.117</address>
+			<basepath>/DCIM/101MSDCF/</basepath>
+		</card>
+		<!--<card>
+			<address>192.168.0.2</address>
+			<basepath>/DCIM/10160905/</basepath>
+		</card>-->
+	</cards>
+ </configuration>

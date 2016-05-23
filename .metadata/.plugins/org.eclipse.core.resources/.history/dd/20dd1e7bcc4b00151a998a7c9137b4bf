@@ -1,0 +1,118 @@
+import java.util.ArrayList;
+
+
+public class FlashAirCard {
+	private String name;
+	private String baseDirectory;
+	private String url;
+	private int fileCount;
+	private boolean connected;
+	private boolean fileCountChanged;
+	private ArrayList<String> fileURLs;
+	private ArrayList<String> newFileURLs;
+	FlashAirAPI api;
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Name: ");
+		sb.append(name);
+		sb.append(";  Base Directory: ");
+		sb.append(baseDirectory);
+		sb.append(";  URL: ");
+		sb.append(url);
+		return sb.toString();
+	}
+	
+	public FlashAirCard(String name, String baseDirectory) {
+		setName(name);
+		setBaseDirectory(baseDirectory);
+		setURL(name, baseDirectory);
+		fileURLs = new ArrayList<String>();
+		newFileURLs = new ArrayList<String>();
+		connected = false;
+		fileCount = 0;
+		api = new FlashAirAPI(name);
+	}
+	
+	private void setURL(String name, String baseDirectory) {
+		url = "http://" + name;
+		
+		if (!baseDirectory.startsWith("/")) {
+			url += "/";
+		}
+		
+		url += baseDirectory;
+		
+		if (!baseDirectory.endsWith("/")) {
+			url += "/";
+		}
+	}
+	
+	public void changeBaseDirectory(String baseDirectory) {
+		setBaseDirectory(baseDirectory);
+		setURL(name, baseDirectory);		
+	}
+	
+	
+	public boolean isConnected() {
+		return connected;
+	}
+	
+	public boolean hasFileCountChanged() {
+		return fileCountChanged;
+	}
+	
+	public void connect() {
+		connected = api.connect();
+	}
+	
+	public ArrayList<String> getFileList(String path) {
+		return api.getFileList(path);
+	}
+	
+	public ArrayList<String> getNewFileList(String path) {
+		ArrayList<String> currentFileURLs = api.getFileList(path);
+		int currentFileCount = api.getFileCount(path);
+		
+		if (currentFileCount > fileCount) {
+			fileCountChanged = true;
+			for (String currentFileURL : currentFileURLs) {
+				boolean found = false;
+				for (String fileURL: fileURLs) {
+					if (currentFileURL.equals(fileURL)) {
+						found = true;
+					}
+				}
+				if (found == false) {
+					newFileURLs.add(currentFileURL);
+				}
+			}
+		}
+		return newFileURLs;
+	}
+	
+	public int getNumberOfFiles(String path) {
+		return 0;
+	}
+		
+	public void saveFile(String remotePath, String localPath) {
+		
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setBaseDirectory(String baseDirectory) {
+		this.baseDirectory = baseDirectory;	
+	}
+	
+	public String getBaseDirectory() {
+		return baseDirectory;
+	}
+
+}

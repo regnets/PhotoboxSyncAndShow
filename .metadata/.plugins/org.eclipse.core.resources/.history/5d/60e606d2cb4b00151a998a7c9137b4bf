@@ -1,0 +1,27 @@
+import java.util.ArrayList;
+
+public class Sync {
+	private ArrayList<FlashAirCard> facs;
+	
+	
+	public Sync() {
+		facs = new ArrayList<FlashAirCard>();
+	}
+	
+	public void addFlashAirCard(String name, String baseDirectory) {
+		facs.add(new FlashAirCard(name, baseDirectory));
+	}
+	
+	public String getInfoForAllCards() {
+		StringBuilder sb = new StringBuilder();
+		for (FlashAirCard fac : facs) {
+			sb.append(fac.toString());
+		}
+		return sb.toString();
+	}
+
+	public void start() {
+
+	}
+
+}
